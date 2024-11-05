@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign Up Page</title>
+    <style>
+        /* Basic reset */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        /* Background styling */
+        body {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            font-family: Arial, sans-serif;
+            background-color: #f3f4f6;
+        }
+
+        /* Container styling */
+        .signup-container {
+            width: 100%;
+            max-width: 350px;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            text-align: center;
+        }
+
+        h2 {
+            margin-bottom: 15px;
+            color: #333;
+        }
+
+        .signup-form label {
+            text-align: left;
+            display: block;
+            margin-top: 10px;
+            color: #555;
+            font-weight: bold;
+        }
+
+        .signup-form input {
+            width: 100%;
+            padding: 10px;
+            margin-top: 5px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 1em;
+        }
+
+        .signup-form button {
+            width: 100%;
+            padding: 10px;
+            margin-top: 15px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-size: 1em;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .signup-form button:disabled {
+            background-color: #cccccc;
+            cursor: not-allowed;
+        }
+
+        .signup-form button:hover:enabled {
+            background-color: #0056b3;
+        }
+
+        /* Sign-in option styling */
+        .signin-option {
+            margin-top: 15px;
+            font-size: 0.9em;
+            color: #555;
+        }
+
+        .signin-option a {
+            color: #007bff;
+            text-decoration: none;
+        }
+
+        .signin-option a:hover {
+            text-decoration: underline;
+        }
+
+        /* Message styling */
+        .message {
+            color: red;
+            font-size: 0.9em;
+            margin-top: 10px;
+        }
+    </style>
+
+<script type="module" src="script.js"></script>
+</head>
+<body>
+
+<div class="signup-container">
+    <h2>Sign Up</h2>
+    <form id="signup-form" class="signup-form">
+        <label for="username">Username</label>
+        <input type="text" id="username" name="username" placeholder="Enter your username" required>
+
+        <label for="email">Email</label>
+        <input type="email" id="email" name="email" placeholder="Enter your email" required>
+
+        <label for="password">Password</label>
+        <input type="password" id="password" name="password" placeholder="Enter your password" required>
+
+        <button type="submit" id="submit-button" disabled>Sign Up</button>
+        <p class="message" id="message"></p>
+    </form>
+
+    <p class="signin-option">Already have an account? <a href="#" onclick="signIn()">Sign In</a></p>
+</div>
+
+<script>
+    // Form validation and message display
+    const form = document.getElementById("signup-form");
+    const message = document.getElementById("message");
+    const submitButton = document.getElementById("submit-button");
+
+    const usernameInput = document.getElementById("username");
+    const emailInput = document.getElementById("email");
+    const passwordInput = document.getElementById("password");
+
+    // Enable the submit button only when all fields have values
+    function checkFormFields() {
+        submitButton.disabled = !(
+            usernameInput.value.trim() &&
+            emailInput.value.trim() &&
+            passwordInput.value.trim()
+        );
+    }
+
+    // Event listeners to check form fields on input
+    usernameInput.addEventListener("input", checkFormFields);
+    emailInput.addEventListener("input", checkFormFields);
+    passwordInput.addEventListener("input", checkFormFields);
+
+    form.addEventListener("submit", function (e) {
+        e.preventDefault();
+        
+        const username = usernameInput.value.trim();
+        const email = emailInput.value.trim();
+        const password = passwordInput.value.trim();
+
+        if (username === "" || email === "" || password === "") {
+            message.textContent = "All fields are required.";
+        } else if (password.length < 6) {
+            message.textContent = "Password must be at least 6 characters.";
+        } else {
+            message.textContent = "";
+            alert(`Welcome, ${username}!`);
+            form.reset();
+            submitButton.disabled = true;  // Disable the button again after resetting the form
+        }
+    });
+
+    // Sign-in option
+    function signIn() {
+        alert("Redirecting to the Sign-In page.");
+        // Here you can add code to redirect to a sign-in page, if you have one
+    }
+</script>
+
+</body>
+</html>

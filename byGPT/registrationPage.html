@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Compact Registration Form</title>
+    <script type="module" src="registration.js" defer></script>
+
+    <style>
+      * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+
+      /* Background styling */
+      body {
+        font-family: Arial, sans-serif;
+        background: linear-gradient(135deg, #f0f2f5, #e3e6e9);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        height: 100vh;
+        padding: 10px;
+        overflow: hidden;
+      }
+
+      /* Form container styling */
+      .form-container {
+        width: 100%;
+        max-width: 320px;
+        max-height: 90vh;
+        padding: 15px;
+        background-color: #ffffff;
+        border-radius: 10px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        text-align: center;
+        overflow-y: auto;
+      }
+
+      /* Form title */
+      h2 {
+        margin-bottom: 10px;
+        color: #333;
+        font-size: 1.4em;
+      }
+
+      /* Form and label styling */
+      form {
+        display: flex;
+        flex-direction: column;
+        gap: 5px;
+        align-items: stretch;
+      }
+
+      label {
+        text-align: left;
+        color: #555;
+        font-weight: bold;
+        font-size: 0.85em;
+      }
+
+      /* Input fields */
+      input[type="text"],
+      input[type="number"],
+      input[type="email"],
+      input[type="tel"],
+      input[type="password"],
+      select {
+        width: 100%;
+        padding: 8px;
+        margin-top: 3px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        font-size: 0.9em;
+        transition: all 0.3s ease;
+      }
+
+      /* Focus effect on inputs */
+      input:focus,
+      select:focus {
+        outline: none;
+        border-color: #007bff;
+        box-shadow: 0 0 4px rgba(0, 123, 255, 0.2);
+      }
+
+      /* Phone container layout */
+      .phone-container {
+        display: flex;
+        gap: 5px;
+      }
+
+      .country-code {
+        width: 30%;
+        padding: 8px;
+        border: 1px solid #ccc;
+        border-radius: 5px 0 0 5px;
+        background-color: #f8f9fa;
+      }
+
+      .phone-container input[type="tel"] {
+        width: 70%;
+        padding: 8px;
+        border: 1px solid #ccc;
+        border-radius: 0 5px 5px 0;
+      }
+
+      /* Toggle section label */
+      .switch-label {
+        display: flex;
+        align-items: center;
+        gap: 5px;
+        font-weight: 500;
+        color: #555;
+        font-size: 0.85em;
+      }
+
+      /* Submit button styling */
+      button {
+        padding: 10px;
+        background-color: hsl(211, 100%, 50%);
+        color: white;
+        border: none;
+        border-radius: 5px;
+        font-size: 1em;
+        cursor: pointer;
+        transition: background-color 0.3s ease, transform 0.1s ease;
+      }
+
+      button:hover {
+        background-color: #0056b3;
+      }
+
+      button:active {
+        transform: scale(0.98);
+      }
+
+      /* Conditional section (hidden by default) */
+      .conditional-section {
+        display: none;
+        text-align: left;
+      }
+
+      /* Responsive styling */
+      @media (max-width: 480px) {
+        .form-container {
+          padding: 10px;
+          max-width: 300px;
+        }
+
+        h2 {
+          font-size: 1.3em;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="form-container">
+      <h2>Registration Form</h2>
+      <form id="registration-form">
+        <label for="full-name">Full Name</label>
+        <input
+          type="text"
+          id="full_name"
+          name="full-name"
+          required
+          placeholder="Full name"
+        />
+
+        <label for="age">Age</label>
+        <input type="number" id="age" name="age" required placeholder="Age" />
+
+        <label for="phone">Phone Number</label>
+        <div class="phone-container">
+          <select class="country-code" aria-label="Country Code">
+            <option value="+91">+91</option>
+          </select>
+          <input
+            type="tel"
+            id="phone"
+            name="phone"
+            maxlength="10"
+            required
+            placeholder="1234567890"
+          />
+        </div>
+
+        <label for="location">Location</label>
+        <input
+          type="text"
+          id="location"
+          name="location"
+          required
+          placeholder="City, Zip"
+        />
+
+        <label for="email">Email</label>
+        <input
+          type="email"
+          id="email"
+          name="email"
+          required
+          placeholder="email@example.com"
+        />
+
+        <label for="password">Password</label>
+        <input
+          type="password"
+          id="password"
+          name="password"
+          placeholder="Password"
+        />
+
+        <label for="role">Role</label>
+        <select id="role" name="role" required onchange="toggleFormSections()">
+          <option value="">Select role</option>
+          <option value="contractor">Contractor</option>
+          <option value="labourer">Labourer</option>
+        </select>
+
+        <!-- Labourer-only section -->
+        <div class="conditional-section" id="labourer-section">
+          <label for="skill">Skill</label>
+          <select id="skill" name="skill">
+            <option value="">Select Skill</option>
+            <option value="Mason">Mason</option>
+            <option value="Carpenter">Carpenter</option>
+            <option value="Electrician">Electrician</option>
+            <option value="Plumber">Plumber</option>
+            <option value="Painter">Painter</option>
+            <option value="Roofer">Roofer</option>
+            <option value="Concrete Worker">Concrete Worker</option>
+            <option value="Welder">Welder</option>
+            <option value="Flooring Installer">Flooring Installer</option>
+            <option value="Plasterer">Plasterer</option>
+            <option value="Drywall Installer">Drywall Installer</option>
+            <option value="Other">Other</option>
+          </select>
+
+          <label for="experience">Experience</label>
+          <input
+            type="number"
+            id="experience"
+            name="experience"
+            placeholder="Years"
+          />
+
+          <label for="availability">Availability</label>
+          <input
+            type="text"
+            id="availability"
+            name="availability"
+            placeholder="Availability"
+          />
+
+          <label for="salary">Salary/Rate</label>
+          <input
+            type="text"
+            id="salary"
+            name="salary"
+            placeholder="Expected rate"
+          />
+
+          <label class="switch-label">
+            <input type="checkbox" id="relocate" name="relocate" />
+            Willing to Relocate
+          </label>
+        </div>
+
+        <button type="submit" id="registerButton">Register</button>
+      </form>
+    </div>
+
+    <script>
+      function toggleFormSections() {
+        const role = document.getElementById("role").value;
+        const labourerSection = document.getElementById("labourer-section");
+
+        if (role === "labourer") {
+          labourerSection.style.display = "block";
+        } else {
+          labourerSection.style.display = "none";
+        }
+      }
+    </script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-database.js"></script>
+  </body>
+</html>
