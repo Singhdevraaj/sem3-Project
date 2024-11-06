@@ -1,6 +1,6 @@
 // Import the functions you need from the SDKs you need
 import { initializeApp } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-app.js";
-import { getDatabase, set, ref, push } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-database.js";
+import { getDatabase, set, ref, push, get } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-database.js";
 import { getAuth, createUserWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-auth.js";
 
 // Your web app's Firebase configuration
@@ -13,80 +13,37 @@ const firebaseConfig = {
   messagingSenderId: "854978174033",
   appId: "1:854978174033:web:6ce725bb2c6f7fd651ac70"
 };
-window.onload = function () {
-  // Initialize Firebase and Database
-  const app = initializeApp(firebaseConfig);
-  const db = getDatabase(app);
-  const auth = getAuth();
 
+// Initialize Firebase and make db and auth available globally
+const app = initializeApp(firebaseConfig);
+const db = getDatabase(app);
+const auth = getAuth();
+
+window.onload = function () {
   // Register Button Event Listener
   const registerButton = document.getElementById("registerButton");
   if (registerButton) {
-      registerButton.addEventListener("click", function (event) {
-          event.preventDefault();
-          
-          const email = document.getElementById("email").value;
-          const password = document.getElementById("password").value;
+    registerButton.addEventListener("click", function (event) {
+      event.preventDefault();
 
-          if (!email || !password) {
-              alert("Please fill in both email and password fields.");
-              return;
-          }
+      const email = document.getElementById("email").value;
+      const password = document.getElementById("password").value;
 
-          createUserWithEmailAndPassword(auth, email, password)
-              .then((userCredential) => {
-                  alert("Account created successfully!");
-              })
-              .catch((error) => {
-                  console.error("Error:", error.message);
-                  alert(error.message);
-              });
-      });
-  }
+      if (!email || !password) {
+        alert("Please fill in both email and password fields.");
+        return;
+      }
 
-  // Submit Button Event Listener for Database Write
-  const submitButton = document.getElementById("registerButton");
-  if (submitButton) {
-      submitButton.addEventListener("click", (e) => {
-          e.preventDefault();
-          
-          // Get form data
+      // Register user with Firebase Authentication
+      createUserWithEmailAndPassword(auth, email, password)
+        .then((userCredential) => {
+          alert("Account created successfully!");
+
+          // After successful registration, write additional user data to Firebase Database
           const username = document.getElementById('full_name').value;
-          const email = document.getElementById('email').value;
-          const password = document.getElementById('password').value;
           const age = document.getElementById('age').value;
           const phone = document.getElementById('phone').value;
           const location = document.getElementById('location').value;
           const skill = document.getElementById('skill').value;
           const experience = document.getElementById('experience').value;
-          const availability = document.getElementById('availability').value;
-          const relocate = document.getElementById('relocate').checked;
-
-          writeDataInDB(username, email, password, age, phone, location, skill, experience, availability, relocate);
-      });
-  }
-};
-
-function writeDataInDB(username, email, password, age, phone, location, skill, experience, availability, relocate) {
-  const db = getDatabase();
-  const newUserRef = push(ref(db, 'users'));
-
-  set(newUserRef, {
-      FullName: username,
-      Email: email,
-      Password: password,
-      Age: age,
-      Phone: phone,
-      Location: location,
-      Skill: skill,
-      Experience: experience,
-      Availability: availability,
-      Relocate: relocate
-  })
-  .then(() => {
-      console.log('Data saved successfully to the database');
-  })
-  .catch((error) => {
-      console.error("Error writing to DB:", error);
-  });
-}
+          const availability = docume
